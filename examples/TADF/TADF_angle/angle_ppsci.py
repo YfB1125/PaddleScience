@@ -1,6 +1,5 @@
 import os
 
-import hydra
 import matplotlib.pyplot as plt
 import numpy as np
 import paddle
@@ -20,12 +19,12 @@ plt.rcParams["font.sans-serif"] = ["DejaVu Sans"]
 
 # 加载数据集
 data = []
-for line in open("./angle.dat"):
+for line in open(".\\examples\\TADF\\TADF_angle\\angle.dat"):
     num = float(line.strip())
     num = num / 90
     data.append(num)
 smis = []
-for line in open("./smis.txt"):
+for line in open(".\\examples\\TADF\\TADF_Est\\smis.txt"):
     smis.append(line.strip())
 vectors = []
 del_mol = []
@@ -164,23 +163,3 @@ def eval(cfg: DictConfig):
     plt.xlabel("Test θ(°)")
     plt.ylabel("Predicted θ(°)")
     plt.show()
-
-
-@hydra.main(version_base=None, config_path="./config", config_name="angle.yaml")
-def main(cfg: DictConfig):
-    if cfg.mode == "train":
-        train(cfg)
-    elif cfg.mode == "eval":
-        eval(cfg)
-    else:
-        raise ValueError(f"cfg.mode should in ['train', 'eval'], but got '{cfg.mode}'")
-
-
-# if cfg.mode == "train":
-#     train(cfg)
-# elif cfg.mode == "eval":
-#     evaluate(cfg)
-
-
-if __name__ == "__main__":
-    main()
